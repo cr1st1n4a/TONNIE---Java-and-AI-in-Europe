@@ -58,20 +58,6 @@ questions = [
         "correct_answer": "d"
     }
 ]
-# Escrevauma função que recebe a questão e as exibe uma a uma para o usuário.
-# Ela retorna a resposta do usuário e valida se a resposta é valida ou se ela é um erro.
-
-# def show_question(question):
-#    print(question["question"])
-#    for key, value in question["answers"].items():
-#        print(f"{key}: {value}")
-#
-#    user_answer = input("Digite a letra correspondente a sua resposta: ")
-#
-#    if user_answer not in question["answers"]:
-#        raise ValueError("Resposta inválida, digite a letra correspondente a sua resposta.")
-#    else:
-#        return user_answer
 
 """
 Escreva uma função que recebe a questão e as exibe uma a uma para o usuário.
@@ -79,9 +65,20 @@ Ela retorna a resposta do usuário e valida se a resposta é valida ou se ela é
 Se o usuário não responder em 10 segundos, a função deve retornar, indicando que o tempo acabou.
 Usando a biblioteca threading, você pode criar uma thread que conta 10 segundos e, se o usuário não responder, a thread interrompe a execução da função.
 """
+
 import threading
 
 def show_question(question):
+    """
+    Exibe uma pergunta de múltipla escolha, solicita a resposta do usuário com limite de tempo e retorna a resposta escolhida.
+    Args:
+        question (dict): Um dicionário contendo a chave "question" (str) com o texto da pergunta e a chave "answers" (dict) com as opções de resposta, onde as chaves são letras (ex: 'a', 'b', 'c') e os valores são as alternativas.
+    Returns:
+        str: A letra correspondente à resposta escolhida pelo usuário.
+    Raises:
+        ValueError: Se o usuário não fornecer uma resposta válida dentro do tempo limite ou se a resposta não corresponder a uma das opções disponíveis.
+    """
+    
     print(question["question"])
     for key, value in question["answers"].items():
         print(f"{key}: {value}")
@@ -90,10 +87,12 @@ def show_question(question):
     def get_user_answer():
         user_answer[0] = input("Digite a letra correspondente a sua resposta: ").lower()
 
+    # Cria uma thread para capturar a resposta do usuário
     thread = threading.Thread(target=get_user_answer)
     thread.daemon = True
     thread.start()
-    thread.join(10)
+    # O método join espera até que a thread termine ou até o tempo limite seja atingido, no caso 5 segundos.
+    thread.join(5)
 
     if user_answer[0] is not None and user_answer[0] in question["answers"]:
         return user_answer[0]
@@ -126,14 +125,24 @@ def main():
     Entre 70 a 100 por cento: "Parabéns, você foi bem"
     """
 
-    if score/len(questions) < 0.3:
-        print("Você precisa estudar mais.")
-    elif score/len(questions) < 0.7:
-        print("Você foi bem, mas ainda pode melhorar.")
-    else:
-        print("Parabéns, você foi bem!")
+    provide_feedback(score)
 
     print(f"Você acertou {score} perguntas de um total de {len(questions)}.")
+
+def provide_feedback(score):
+    percent = (score / len(questions)) * 100
+    if percent < 20:
+        print("Você precisa estudar muito mais.")
+    elif percent < 40:
+        print("Você precisa estudar mais.")
+    elif percent < 60:
+        print("Você foi razoável, mas pode melhorar bastante.")
+    elif percent < 80:
+        print("Você foi bem, mas ainda pode melhorar.")
+    elif percent < 100:
+        print("Ótimo desempenho, quase perfeito!")
+    else:
+        print("Parabéns, você acertou todas!")
 
 if __name__ == "__main__":
     main()
