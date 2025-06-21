@@ -15,3 +15,18 @@ def is_number_odd(number):
         return False
     else:
         return True
+
+
+def is_prime(number):
+    if not isinstance(number, int):
+        raise ValueError("Não é um número inteiro.")
+    
+    if number < 2:
+        return False
+    
+    for i in range(2, int(number**0.5) + 1):
+        if number % i == 0:
+            return False
+        
+    return True
+    

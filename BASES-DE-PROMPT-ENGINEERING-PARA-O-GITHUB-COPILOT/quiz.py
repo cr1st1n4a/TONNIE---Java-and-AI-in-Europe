@@ -131,18 +131,12 @@ def main():
 
 def provide_feedback(score):
     percent = (score / len(questions)) * 100
-    if percent < 20:
-        print("Você precisa estudar muito mais.")
-    elif percent < 40:
+    if percent < 30:
         print("Você precisa estudar mais.")
-    elif percent < 60:
-        print("Você foi razoável, mas pode melhorar bastante.")
-    elif percent < 80:
+    elif percent < 70:
         print("Você foi bem, mas ainda pode melhorar.")
-    elif percent < 100:
-        print("Ótimo desempenho, quase perfeito!")
     else:
-        print("Parabéns, você acertou todas!")
+        print("Parabéns, você foi bem.")
 
 if __name__ == "__main__":
     main()
